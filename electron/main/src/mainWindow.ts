@@ -38,7 +38,7 @@ async function createWindow() {
     },
   });
 
-  // browserWindow.webContents.openDevTools();
+  browserWindow.webContents.openDevTools();
 
   /**
    * If the 'show' property of the BrowserWindow's constructor is omitted from the initialization options,

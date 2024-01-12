@@ -278,6 +278,9 @@ importers:
 
   electron:
     dependencies:
+      '@cristal/electron-storage':
+        specifier: workspace:^
+        version: link:storage
       '@cristal/lib':
         specifier: workspace:^
         version: link:../lib

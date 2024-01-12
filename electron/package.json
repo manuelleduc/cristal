@@ -23,6 +23,7 @@
     "rimraf": "5.0.5"
   },
   "dependencies": {
+    "@cristal/electron-storage": "workspace:^",
     "@cristal/lib": "workspace:^",
     "electron-updater": "6.1.7"
   }
