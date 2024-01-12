@@ -30,16 +30,15 @@ async function createWindow() {
   const browserWindow = new BrowserWindow({
     show: false, // Use the 'ready-to-show' event to show the instantiated BrowserWindow.
     webPreferences: {
-      // Required for the filesystem
-      nodeIntegration: true,
-      contextIsolation: false,
+      nodeIntegration: false,
+      contextIsolation: true,
       sandbox: false, // Sandbox disabled because the demo of preload script depend on the Node.js api
       webviewTag: false, // The webview tag is not recommended. Consider alternatives like an iframe or Electron's BrowserView. @see https://www.electronjs.org/docs/latest/api/webview-tag#warning
       preload: join(app.getAppPath(), "./preload/dist/index.cjs"),
     },
   });
 
-  browserWindow.webContents.openDevTools();
+  // browserWindow.webContents.openDevTools();
 
   /**
    * If the 'show' property of the BrowserWindow's constructor is omitted from the initialization options,
@@ -79,7 +78,7 @@ async function createWindow() {
      * @see https://github.com/electron/electron/issues/6869
      */
     await browserWindow.loadFile(
-      resolve(app.getAppPath(), "./renderer/dist/index.html"),
+      resolve(app.getAppPath(), "./renderer/index.html"),
     );
   }
 

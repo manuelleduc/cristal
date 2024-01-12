@@ -25,8 +25,8 @@
 import { inject, injectable } from "inversify";
 import { DefaultPageData, Logger, PageData } from "@cristal/api";
 import { AbstractStorage } from "@cristal/storage";
-import fs from "fs";
-import path from "path";
+import fs from "node:fs";
+import { join } from "path";
 
 @injectable()
 export default class FileSystemStorage extends AbstractStorage {
@@ -89,7 +89,7 @@ export default class FileSystemStorage extends AbstractStorage {
   private resolvePath(wikiName: string, id: string): string {
     // const homedir = app.getPath("home");
     const homedir = "/home/mleduc";
-    return path.join(homedir, this.homePath, wikiName, id + ".json");
+    return join(homedir, this.homePath, wikiName, id + ".json");
   }
   //
   // private serialize(page: PageData) {
