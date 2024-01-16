@@ -1,16 +1,17 @@
 {
   "name": "@cristal/electron-storage",
   "version": "1.0.0",
-  "types": "dist/index.d.ts",
+  "types": "dist/main/index.d.ts",
   "license": "AGPL-3.0",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./dist/main/main.umd.cjs",
+    "./preload": "./dist/preload/main.umd.cjs"
   },
   "scripts": {
     "clean": "rimraf dist",
     "prepack": "pnpm build",
     "build": "pnpm compile",
-    "compile": "vue-tsc --project tsconfig.json --noEmit && vite build && cp \"./package.json\" ./dist/",
+    "compile": "vue-tsc --project tsconfig.json --noEmit && vite build && vite build -c vite.preload.config.ts && cp \"./package.json\" ./dist/",
     "test": "echo 'no test'",
     "lint": "eslint \"./src/**/*.{ts,tsx}\" --max-warnings=0"
   },

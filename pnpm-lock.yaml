@@ -327,6 +327,9 @@ importers:
 
   electron/preload:
     devDependencies:
+      '@cristal/electron-storage':
+        specifier: workspace:^
+        version: link:../storage
       '@types/node':
         specifier: 20.10.3
         version: 20.10.3

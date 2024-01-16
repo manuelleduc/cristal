@@ -25,13 +25,10 @@
 import { inject, injectable } from "inversify";
 import { DefaultPageData, Logger, PageData } from "@cristal/api";
 import { AbstractStorage } from "@cristal/storage";
-import fs from "node:fs";
-import { join } from "path";
+import { fileSystemStorage } from "../electron/preload/apiTypes";
 
 @injectable()
 export default class FileSystemStorage extends AbstractStorage {
-  private homePath = ".cristal";
-
   constructor(@inject<Logger>("Logger") logger: Logger) {
     super(logger, "storage.components.fileSystemStorage");
   }
@@ -44,14 +41,16 @@ export default class FileSystemStorage extends AbstractStorage {
     return "";
   }
 
-  getPageContent(page: string, syntax: string): Promise<PageData> {
-    const path = this.resolvePath("wiki", page);
+  async getPageContent(page: string, syntax: string): Promise<PageData> {
+    if (fileSystemStorage === undefined) {
+      // TODO: can probably be avoided.
+      throw new Error("...");
+    }
+    const path = await fileSystemStorage.resolvePath(page, syntax);
     this.logger.error("PAGE", page);
     this.logger.error("SYNTAX", syntax);
     this.logger.error("PATH", path);
-    return fs.promises
-      .readFile(path)
-      .then((pageContent: Buffer) => JSON.parse(pageContent.toString("utf8")));
+    return fileSystemStorage.readPage(path || "");
   }
 
   getPageFromViewURL(url: string): string | null {
@@ -86,11 +85,6 @@ export default class FileSystemStorage extends AbstractStorage {
   //   this.savePage(wikiName, id, page);
   // }
   //
-  private resolvePath(wikiName: string, id: string): string {
-    // const homedir = app.getPath("home");
-    const homedir = "/home/mleduc";
-    return join(homedir, this.homePath, wikiName, id + ".json");
-  }
   //
   // private serialize(page: PageData) {
   //   return JSON.stringify(page.toObject());
