@@ -5,10 +5,13 @@ export default mergeConfig(
   defaultConfig,
   defineConfig({
     build: {
-      outDir: "dist/default",
+      outDir: "dist/main",
       lib: {
-        entry: "./src/index.ts",
-        name: "electronstorage",
+        entry: "./src/electron/main/index.ts",
+        name: "electronstoragemain",
+      },
+      rollupOptions: {
+        external: ["electron", "node:path", "node:fs"],
       },
     },
   }),

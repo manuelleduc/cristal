@@ -25,7 +25,8 @@
 import { inject, injectable } from "inversify";
 import { DefaultPageData, Logger, PageData } from "@cristal/api";
 import { AbstractStorage } from "@cristal/storage";
-import { fileSystemStorage } from "../electron/preload/apiTypes";
+import { APITypes } from "../electron/preload/apiTypes";
+declare const fileSystemStorage: APITypes;
 
 @injectable()
 export default class FileSystemStorage extends AbstractStorage {
@@ -46,6 +47,7 @@ export default class FileSystemStorage extends AbstractStorage {
       // TODO: can probably be avoided.
       throw new Error("...");
     }
+    console.log("CALLING RESOLVE PATH");
     const path = await fileSystemStorage.resolvePath(page, syntax);
     this.logger.error("PAGE", page);
     this.logger.error("SYNTAX", syntax);

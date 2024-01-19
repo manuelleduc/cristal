@@ -5,6 +5,3 @@ export interface APITypes {
 
   readPage(path: string): Promise<PageData>;
 }
-
-// This is just a namehandler for an implicit global scope.
-export const fileSystemStorage: APITypes | undefined = undefined;

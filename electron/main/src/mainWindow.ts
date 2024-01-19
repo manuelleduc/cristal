@@ -78,7 +78,7 @@ async function createWindow() {
      * @see https://github.com/electron/electron/issues/6869
      */
     await browserWindow.loadFile(
-      resolve(app.getAppPath(), "./renderer/index.html"),
+      resolve(app.getAppPath(), "./renderer/dist/index.html"),
     );
   }
 
