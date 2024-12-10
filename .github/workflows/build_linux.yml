@@ -6,6 +6,7 @@ on:
 jobs:
   electron:
     runs-on: ubuntu-latest
+    permissions: write-all
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4.1.0
