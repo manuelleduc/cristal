@@ -4,13 +4,11 @@ on:
   workflow_dispatch:
   push:
 
-permissions:
-  contents: write   # This is required to create/push the new git tag
+permissions: write-all
 
 jobs:
   electron:
     runs-on: macos-latest
-    permissions: write-all
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4.1.0
