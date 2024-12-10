@@ -22,13 +22,15 @@
     "clean": "rimraf dist",
     "compile": "vue-tsc --project tsconfig.json && vite build",
     "lint": "eslint \"./src/**/*.{ts,tsx,vue}\" --max-warnings=0",
-    "prepack": "pnpm build"
+    "prepack": "pnpm build",
+    "test": "vitest --run"
   },
   "types": "dist/index.d.ts",
   "dependencies": {
     "@xwiki/cristal-alerts-api": "workspace:*",
     "@xwiki/cristal-alerts-ui": "workspace:*",
     "@xwiki/cristal-api": "workspace:*",
+    "@xwiki/cristal-backend-api": "workspace:*",
     "@xwiki/cristal-document-api": "workspace:*",
     "@xwiki/cristal-extra-tabs-api": "workspace:*",
     "@xwiki/cristal-extra-tabs-ui": "workspace:*",
@@ -36,19 +38,27 @@
     "@xwiki/cristal-icons": "workspace:*",
     "@xwiki/cristal-info-actions-api": "workspace:*",
     "@xwiki/cristal-info-actions-ui": "workspace:*",
+    "@xwiki/cristal-model-api": "workspace:*",
     "@xwiki/cristal-model-click-listener": "workspace:*",
+    "@xwiki/cristal-model-reference-api": "workspace:*",
     "@xwiki/cristal-navigation-tree-api": "workspace:*",
     "@xwiki/cristal-page-actions-ui": "workspace:*",
     "@xwiki/cristal-uiextension-api": "workspace:*",
     "@xwiki/cristal-uiextension-ui": "workspace:*",
     "inversify": "6.1.4",
-    "marked": "15.0.2",
+    "marked": "15.0.3",
     "reflect-metadata": "0.2.2",
     "vue": "3.5.13",
     "vue-i18n": "10.0.4",
     "vue-router": "4.5.0"
   },
   "devDependencies": {
+    "@vue/test-utils": "2.4.6",
+    "@xwiki/cristal-dev-config": "workspace:*",
+    "@xwiki/cristal-dev-test-utils": "workspace:*",
+    "typescript": "5.6.3",
+    "vite": "6.0.3",
+    "vitest": "2.1.8",
     "vue-tsc": "2.1.10"
   },
   "publishConfig": {

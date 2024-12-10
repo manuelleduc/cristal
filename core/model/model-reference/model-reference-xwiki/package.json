@@ -20,7 +20,7 @@
   "scripts": {
     "build": "tsc --project tsconfig.json && vite build",
     "clean": "rimraf dist",
-    "lint": "eslint \"./src/**/*.{ts,tsx}\" --max-warnings=0",
+    "lint": "eslint \"./src/**/*.{ts,tsx,vue}\" --max-warnings=0",
     "test": "vitest --run"
   },
   "dependencies": {
@@ -30,7 +30,9 @@
   },
   "devDependencies": {
     "reflect-metadata": "0.2.2",
-    "vitest": "2.1.6"
+    "typescript": "5.6.3",
+    "vite": "6.0.3",
+    "vitest": "2.1.8"
   },
   "publishConfig": {
     "exports": {

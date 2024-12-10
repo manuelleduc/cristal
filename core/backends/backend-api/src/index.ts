@@ -19,6 +19,8 @@
  */
 
 import { AbstractStorage } from "./abstractStorage";
+import { ComponentInit } from "./componentInit";
 import type OfflineStorage from "./offlineStorage";
+import type { StorageProvider } from "./storageProvider";
 
-export { AbstractStorage, OfflineStorage };
+export { AbstractStorage, ComponentInit, OfflineStorage, StorageProvider };

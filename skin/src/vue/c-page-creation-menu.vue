@@ -18,50 +18,78 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 <script setup lang="ts">
+import messages from "../translations";
 import { CIcon } from "@xwiki/cristal-icons";
 import { defineProps, inject, ref } from "vue";
+import { useI18n } from "vue-i18n";
 import type { CristalApp, PageData } from "@xwiki/cristal-api";
+import type { SpaceReference } from "@xwiki/cristal-model-api";
+import type {
+  ModelReferenceHandler,
+  ModelReferenceHandlerProvider,
+  ModelReferenceSerializer,
+  ModelReferenceSerializerProvider,
+} from "@xwiki/cristal-model-reference-api";
 import type { NavigationTreeNode } from "@xwiki/cristal-navigation-tree-api";
 import type { Ref } from "vue";
 
 const cristal: CristalApp = inject<CristalApp>("cristal")!;
 
+const referenceHandler: ModelReferenceHandler = cristal
+  .getContainer()
+  .get<ModelReferenceHandlerProvider>("ModelReferenceHandlerProvider")
+  .get()!;
+const referenceSerializer: ModelReferenceSerializer = cristal
+  .getContainer()
+  .get<ModelReferenceSerializerProvider>("ModelReferenceSerializerProvider")
+  .get()!;
+
 const dialogOpen: Ref<boolean> = ref(false);
 const name: Ref<string> = ref("");
+const namePlaceholder: Ref<string> = ref("");
 const location: Ref<string> = ref("");
+var locationReference: SpaceReference | undefined = undefined;
 
 defineProps<{
   currentPage: PageData;
 }>();
 
+const { t } = useI18n({
+  messages,
+});
+
 function treeNodeClickAction(node: NavigationTreeNode) {
-  location.value = node.location;
+  locationReference = node.location;
+  location.value = referenceSerializer.serialize(locationReference)!;
 }
 
 function updateCurrentPage() {
-  name.value = cristal.getWikiConfig().getNewPageDefaultName();
+  namePlaceholder.value = cristal.getWikiConfig().getNewPageDefaultName();
+  name.value = "";
 }
 
 function createPage() {
-  var newPage = "";
+  const newDocumentName = name.value ? name.value : namePlaceholder.value;
+  const newDocumentReference = referenceHandler.createDocumentReference(
+    newDocumentName,
+    locationReference!,
+  );
 
-  // TODO: Use a page resolver instead when CRISTAL-234 is fixed.
-  const pageResourceSeparator =
-    cristal.getWikiConfig().getType() == "XWiki" ? "." : "/";
-
-  if (location.value) {
-    newPage += location.value + pageResourceSeparator;
-  }
-  newPage += name.value;
-
-  cristal.setCurrentPage(newPage, "edit");
+  cristal.setCurrentPage(
+    referenceSerializer.serialize(newDocumentReference)!,
+    "edit",
+  );
 
   dialogOpen.value = false;
 }
 </script>
 
 <template>
-  <x-dialog v-model="dialogOpen" width="auto" title="New Page">
+  <x-dialog
+    v-model="dialogOpen"
+    width="auto"
+    :title="t('page.creation.menu.title')"
+  >
     <template #activator="{ props }">
       <x-btn
         id="new-page-button"
@@ -71,20 +99,22 @@ function createPage() {
         @click="updateCurrentPage"
       >
         <c-icon name="plus" v-bind="props"></c-icon>
-        New Page
+        {{ t("page.creation.menu.button") }}
       </x-btn>
     </template>
     <template #default>
       <div id="new-page-content" class="grid">
-        <x-form class="subgrid">
+        <x-form class="subgrid" @form-submit="createPage">
           <x-text-field
             v-model="name"
-            label="Name"
+            :placeholder="namePlaceholder"
+            :label="t('page.creation.menu.field.name')"
             name="name"
+            autofocus
             required
           ></x-text-field>
           <div>
-            <label>Parent Location</label>
+            <label>{{ t("page.creation.menu.field.location") }}</label>
             <div id="new-page-navigation-tree" class="location-box">
               <XNavigationTree
                 :click-action="treeNodeClickAction"
@@ -92,15 +122,21 @@ function createPage() {
               ></XNavigationTree>
               <x-text-field
                 v-model="location"
-                label="Location"
+                :label="t('page.creation.menu.field.location')"
                 name="location"
                 required
               ></x-text-field>
             </div>
           </div>
+          <!-- This is a hidden button to enable submit events for Vuetify.
+               We do not want to put the other button inside the form, we want
+               to keep it in the footer instead. -->
+          <input type="submit" />
         </x-form>
       </div>
-      <x-btn slot="footer" @click="createPage">Create</x-btn>
+    </template>
+    <template #footer>
+      <x-btn @click="createPage">{{ t("page.creation.menu.submit") }}</x-btn>
     </template>
   </x-dialog>
 </template>
@@ -132,5 +168,9 @@ function createPage() {
   grid-template-columns: subgrid;
   grid-column: 1 / 1;
   gap: 0.5rem;
+}
+
+input[type="submit"] {
+  display: none;
 }
 </style>

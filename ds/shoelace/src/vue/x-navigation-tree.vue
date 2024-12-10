@@ -79,9 +79,11 @@ watch(items, expandTree);
 async function expandTree() {
   if (props.currentPage) {
     const nodesToExpand = treeSource.getParentNodesId(props.currentPage);
-    await Promise.all(
-      items.value!.map(async (it) => it.expandTree(nodesToExpand)),
-    );
+    if (items.value) {
+      await Promise.all(
+        items.value!.map(async (it) => it.expandTree(nodesToExpand)),
+      );
+    }
   }
 }
 
@@ -134,7 +136,7 @@ async function onDocumentUpdate(page: PageData) {
         }
       } else {
         parents.shift();
-        if (items.value) {
+        if (items.value && items.value.length > 0) {
           await items.value[i].onDocumentUpdate(parents);
         }
         break;

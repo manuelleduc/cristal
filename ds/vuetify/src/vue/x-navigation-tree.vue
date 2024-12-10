@@ -33,6 +33,7 @@ import { inject, onBeforeMount, ref, watch } from "vue";
 import { VTreeview } from "vuetify/labs/VTreeview";
 import type { CristalApp, PageData } from "@xwiki/cristal-api";
 import type { DocumentService } from "@xwiki/cristal-document-api";
+import type { SpaceReference } from "@xwiki/cristal-model-api";
 import type {
   NavigationTreeNode,
   NavigationTreeSource,
@@ -45,7 +46,7 @@ type TreeItem = {
   title: string;
   href: string;
   children?: Array<TreeItem>;
-  _location: string;
+  _location: SpaceReference;
 };
 
 type OnClickAction = (node: NavigationTreeNode) => void;
@@ -64,6 +65,7 @@ const tree: Ref<VTreeview | undefined> = ref(undefined);
 
 const activatedNodes: Ref<Array<string>> = ref(new Array<string>());
 const expandedNodes: Ref<Array<string>> = ref(new Array<string>());
+var isExpanding: boolean = false;
 
 const props = defineProps<{
   clickAction?: OnClickAction;
@@ -80,59 +82,54 @@ onBeforeMount(async () => {
       _location: node.location,
     });
   }
-  if (props.currentPage !== undefined) {
-    await expandTree();
-  }
+  await expandTree();
 
   documentService.registerDocumentChangeListener("delete", onDocumentDelete);
   documentService.registerDocumentChangeListener("update", onDocumentUpdate);
 });
 
-watch(
-  () => props.currentPage,
-  async () => {
-    if (props.currentPage) {
-      await expandTree();
-    }
-  },
-);
+watch(() => props.currentPage, expandTree);
 
 async function expandTree() {
-  const newExpandedNodes = treeSource.getParentNodesId(props.currentPage);
-  let i;
-  let currentNodes = rootNodes.value;
-  for (i = 0; i < newExpandedNodes.length - 1; i++) {
+  if (props.currentPage && !isExpanding) {
+    isExpanding = true;
+    const newExpandedNodes = treeSource.getParentNodesId(props.currentPage);
+    let i;
+    let currentNodes = rootNodes.value;
+    for (i = 0; i < newExpandedNodes.length - 1; i++) {
+      if (currentNodes) {
+        for (const node of currentNodes) {
+          if (node.id == newExpandedNodes[i]) {
+            if (node.children?.length == 0) {
+              await lazyLoadChildren(node);
+            }
+            if (!expandedNodes.value.includes(node.id)) {
+              expandedNodes.value.push(node.id);
+            }
+            currentNodes = node.children!;
+          }
+        }
+      }
+    }
     if (currentNodes) {
       for (const node of currentNodes) {
         if (node.id == newExpandedNodes[i]) {
-          if (node.children?.length == 0) {
-            await lazyLoadChildren(node);
+          activatedNodes.value = [node.id];
+          // If we have a custom click action, we want to use it on dynamic
+          // selection.
+          if (props.clickAction) {
+            props.clickAction({
+              id: node.id,
+              label: node.title,
+              location: node._location,
+              url: node.href,
+              has_children: node.children !== undefined,
+            });
           }
-          if (!expandedNodes.value.includes(node.id)) {
-            expandedNodes.value.push(node.id);
-          }
-          currentNodes = node.children!;
         }
       }
     }
-  }
-  if (currentNodes) {
-    for (const node of currentNodes) {
-      if (node.id == newExpandedNodes[i]) {
-        activatedNodes.value = [node.id];
-        // If we have a custom click action, we want to use it on dynamic
-        // selection.
-        if (props.clickAction) {
-          props.clickAction({
-            id: node.id,
-            label: node.title,
-            location: node._location,
-            url: node.href,
-            has_children: node.children !== undefined,
-          });
-        }
-      }
-    }
+    isExpanding = false;
   }
 }
 
@@ -186,8 +183,9 @@ async function onDocumentUpdate(page: PageData) {
   const parents = treeSource.getParentNodesId(page);
   let currentParent: string | undefined = undefined;
   let currentItems: TreeItem[] | undefined = rootNodes.value;
+  let notFound = false;
 
-  while (currentItems) {
+  currentItemsLoop: while (currentItems && !notFound) {
     for (const i of currentItems.keys()) {
       if (currentItems[i].id == parents[0]) {
         if (parents.length == 1) {
@@ -203,31 +201,35 @@ async function onDocumentUpdate(page: PageData) {
           }
         } else {
           currentParent = currentItems[i].id;
+          if (!currentItems[i].children) {
+            currentItems[i].children = [];
+          }
           currentItems = currentItems[i].children;
           parents.shift();
-          break;
+          continue currentItemsLoop;
         }
       }
     }
+    notFound = true;
+  }
 
-    // New page
-    const newItems = await treeSource.getChildNodes(
-      currentParent ? currentParent : "",
-    );
-    newItemsLoop: for (const newItem of newItems) {
-      for (const i of currentItems!.keys()) {
-        if (newItem.id == currentItems![i].id) {
-          continue newItemsLoop;
-        }
+  // New page
+  const newItems = await treeSource.getChildNodes(
+    currentParent ? currentParent : "",
+  );
+  newItemsLoop: for (const newItem of newItems) {
+    for (const i of currentItems!.keys()) {
+      if (newItem.id == currentItems![i].id) {
+        continue newItemsLoop;
       }
-      currentItems!.push({
-        id: newItem.id,
-        title: newItem.label,
-        href: newItem.url,
-        children: newItem.has_children ? [] : undefined,
-        _location: newItem.location,
-      });
     }
+    currentItems!.push({
+      id: newItem.id,
+      title: newItem.label,
+      href: newItem.url,
+      children: newItem.has_children ? [] : undefined,
+      _location: newItem.location,
+    });
   }
 }
 </script>
