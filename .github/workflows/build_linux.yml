@@ -3,6 +3,10 @@ name: Electron Build for Linux
 on:
   workflow_dispatch:
   push:
+
+permissions:
+  contents: write   # This is required to create/push the new git tag
+
 jobs:
   electron:
     runs-on: ubuntu-latest
