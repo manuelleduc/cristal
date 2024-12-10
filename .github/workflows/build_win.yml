@@ -16,7 +16,7 @@ jobs:
       - run: pnpm run build
       - run: pnpm run --filter @xwiki/cristal-electron win
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/upload-artifact@v4
         with:
           name: electron_windows_exe
