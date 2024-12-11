@@ -32,6 +32,7 @@ module.exports = async function () {
   const { getVersion } = await import("./version/getVersion.mjs");
 
   return {
+    productName: "cristal",
     directories: {
       output: "dist",
       buildResources: "buildResources",
