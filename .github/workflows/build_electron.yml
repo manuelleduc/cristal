@@ -1,4 +1,4 @@
-name: Electron Build for Linux
+name: Electron Build for all platforms
 
 on:
   workflow_dispatch:
@@ -33,8 +33,8 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            electron/dist/@xwiki/cristal-electron-*.tar.gz
-            electron/dist/@xwiki/cristal-electron_*_amd64.deb
+            electron/dist/@xwiki/cristal-*.tar.gz
+            electron/dist/@xwiki/cristal-*.deb
           tag_name: ${{ github.ref }}
           draft: true
   electron-mac:
@@ -72,7 +72,7 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          files: electron/dist/@xwikicristal-electron Setup *.exe
+          files: electron/dist/cristal-*.exe
           tag_name: ${{ github.ref }}
           draft: true
 
