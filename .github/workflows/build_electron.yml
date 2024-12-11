@@ -27,10 +27,7 @@ jobs:
       - run: pnpm run --filter @xwiki/cristal-electron linux
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: ls electron/dist
-      - run: ls electron/dist/@xwiki
-      - name: Release
-        uses: softprops/action-gh-release@v2
+      - uses: softprops/action-gh-release@v2
         with:
           files: |
             electron/dist/@xwiki/cristal-*.tar.gz
@@ -49,9 +46,7 @@ jobs:
       - run: pnpm run --filter @xwiki/cristal-electron mac
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: ls electron/dist
-      - name: Release
-        uses: softprops/action-gh-release@v2
+      - uses: softprops/action-gh-release@v2
         with:
           files: electron/dist/cristal-*.dmg
           tag_name: ${{ github.ref }}
@@ -68,9 +63,7 @@ jobs:
       - run: pnpm run --filter @xwiki/cristal-electron win
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: ls electron/dist
-      - name: Release
-        uses: softprops/action-gh-release@v2
+      - uses: softprops/action-gh-release@v2
         with:
           files: electron/dist/cristal-*.exe
           tag_name: ${{ github.ref }}
