@@ -1,0 +1,77 @@
+name: Electron Build for Linux
+
+on:
+  workflow_dispatch:
+  push:
+
+permissions: write-all
+
+jobs:
+  electron-prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: liudonghua123/delete-release-action@v1
+        with:
+          release_name: ${{ github.ref }}
+  electron-linux:
+    runs-on: ubuntu-latest
+    needs: electron-prepare
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4.1.0
+      - uses: pnpm/action-setup@v4
+      - run: pnpm install
+      - run: pnpm run build
+      - run: pnpm run --filter @xwiki/cristal-electron linux
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: ls electron/dist
+      - run: ls electron/dist/@xwiki
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            electron/dist/@xwiki/cristal-electron-*.tar.gz
+            electron/dist/@xwiki/cristal-electron_*_amd64.deb
+          tag_name: ${{ github.ref }}
+          draft: true
+  electron-mac:
+    runs-on: macos-latest
+    needs: electron-prepare
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4.1.0
+      - uses: pnpm/action-setup@v4
+      - run: pnpm install
+      - run: pnpm run build
+      - run: pnpm run --filter @xwiki/cristal-electron mac
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: ls electron/dist
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: electron/dist/@xwikicristal-electron-*-arm64.dmg
+          tag_name: ${{ github.ref }}
+          draft: true
+  electron-win:
+    runs-on: windows-latest
+    needs: electron-prepare
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4.1.0
+      - uses: pnpm/action-setup@v4
+      - run: pnpm install
+      - run: pnpm run build
+      - run: pnpm run --filter @xwiki/cristal-electron win
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: ls electron/dist
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: electron/dist/@xwikicristal-electron Setup *.exe
+          tag_name: ${{ github.ref }}
+          draft: true
+
+
