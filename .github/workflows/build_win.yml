@@ -27,15 +27,11 @@ jobs:
           tag_name: ${{ github.ref }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: upload darwin artifact
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: electron/dist/@xwikicristal-electron Setup *.exe
-          asset_name: cristal.exe
-          asset_content_type: application/vnd.microsoft.portable-executable
+          files: electron/dist/@xwikicristal-electron Setup *.exe
       - uses: actions/upload-artifact@v4
         with:
           name: electron_windows_exe
