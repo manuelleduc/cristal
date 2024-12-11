@@ -17,6 +17,25 @@ jobs:
       - run: pnpm run --filter @xwiki/cristal-electron win
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: release
+        uses: actions/create-release@v1
+        id: create_release
+        with:
+          draft: true
+          prerelease: false
+          release_name: ${{ steps.version.outputs.version }}
+          tag_name: ${{ github.ref }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: upload darwin artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: electron/dist/@xwikicristal-electron Setup *.exe
+          asset_name: cristal.exe
+          asset_content_type: application/vnd.microsoft.portable-executable
       - uses: actions/upload-artifact@v4
         with:
           name: electron_windows_exe
