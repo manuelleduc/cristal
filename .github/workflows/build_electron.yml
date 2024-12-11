@@ -13,6 +13,8 @@ jobs:
       - uses: liudonghua123/delete-release-action@v1
         with:
           release_name: ${{ github.ref }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   electron-linux:
     runs-on: ubuntu-latest
     needs: electron-prepare
