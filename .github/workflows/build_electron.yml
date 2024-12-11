@@ -53,7 +53,7 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          files: electron/dist/@xwikicristal-electron-*-arm64.dmg
+          files: electron/dist/cristal-*.dmg
           tag_name: ${{ github.ref }}
           draft: true
   electron-win:

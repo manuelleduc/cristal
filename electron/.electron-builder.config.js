@@ -32,7 +32,9 @@ module.exports = async function () {
   const { getVersion } = await import("./version/getVersion.mjs");
 
   return {
-    productName: "cristal",
+    appId: "org.xwiki.cristal",
+    productName: 'cristal',
+    artifactName: '${productName}-${version}.${ext}',
     directories: {
       output: "dist",
       buildResources: "buildResources",
