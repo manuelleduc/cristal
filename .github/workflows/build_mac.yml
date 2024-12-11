@@ -18,7 +18,10 @@ jobs:
       - run: pnpm run --filter @xwiki/cristal-electron mac
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/upload-artifact@v4
+      - run: ls electron/dist
+      - name: Release
+        uses: softprops/action-gh-release@v2
         with:
-          name: electron_mac
-          path: electron/dist/@xwikicristal-electron-*-arm64.dmg
+          files: electron/dist/@xwikicristal-electron-*-arm64.dmg
+          tag_name: ${{ github.ref }}
+          draft: true
