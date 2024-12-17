@@ -45,6 +45,8 @@ export class CristalLoader {
     return logger;
   }
 
+  // TODO: reduce the number of statements in the following method and reactivate the disabled eslint rule.
+  // eslint-disable-next-line max-statements
   public async loadExtensionManager(
     staticExtensionManager: boolean,
   ): Promise<void> {
@@ -84,6 +86,8 @@ export class CristalLoader {
     }
   }
 
+  // TODO: reduce the number of statements in the following method and reactivate the disabled eslint rule.
+  // eslint-disable-next-line max-statements
   public async loadExtensions(
     staticExtensionManager: boolean,
     staticBuild: boolean,
@@ -138,10 +142,14 @@ export class CristalLoader {
 
     if (pathname.startsWith("/")) {
       const i1 = pathname.indexOf("/", 1);
-      if (i1 != -1) configName = pathname.substring(1, i1);
+      if (i1 != -1) {
+        configName = pathname.substring(1, i1);
+      }
     }
 
-    if (configName == null || configName == "") configName = "XWiki";
+    if (configName == null || configName == "") {
+      configName = "XWiki";
+    }
 
     return configName;
   }
