@@ -46,11 +46,17 @@ module.exports = async function () {
     },
     // Specify linux target just for disabling snap compilation
     linux: {
+      executableName: "cristal",
       category: "Application",
     },
     mac: {
+      executableName: "cristal",
+      target: "dmg",
       category: "Application",
     },
-    win: {},
+    win: {
+      executableName: "cristal",
+      target: "nsis",
+    },
   };
 };
