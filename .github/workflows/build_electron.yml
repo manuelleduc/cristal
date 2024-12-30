@@ -38,6 +38,8 @@ jobs:
         with:
           files: |
             electron/dist/cristal-*.*
+            latest.yml
+            latest-linux.yml
           tag_name: ${{ github.ref }}
           draft: true
   electron-mac:
