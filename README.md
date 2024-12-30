@@ -107,5 +107,5 @@ HTTP_PORT=9001 pnpm run --filter ./web test:e2e
 ### Lint
 
 ```sh
-pnpm lint
+pnpm lint ## Lint
 ```
