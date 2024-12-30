@@ -44,5 +44,13 @@ module.exports = async function () {
     extraMetadata: {
       version: getVersion(),
     },
+    // Specify linux target just for disabling snap compilation
+    linux: {
+      category: "Application",
+    },
+    mac: {
+      category: "Application",
+    },
+    win: {},
   };
 };
