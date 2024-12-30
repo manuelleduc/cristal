@@ -12,6 +12,12 @@ concurrency:
   group: ${{ github.ref }}
   cancel-in-progress: true
 
+## Don't build concurrently for a given branch.
+## Only the most recent version is built.
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
 permissions: write-all
 
 jobs:

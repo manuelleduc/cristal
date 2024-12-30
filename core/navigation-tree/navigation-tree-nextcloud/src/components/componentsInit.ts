@@ -18,6 +18,7 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
+import { PASSWORD, USERNAME } from "@xwiki/cristal-authentication-nextcloud";
 import { SpaceReference } from "@xwiki/cristal-model-api";
 import { name as NavigationTreeSourceName } from "@xwiki/cristal-navigation-tree-api";
 import { getParentNodesIdFromPath } from "@xwiki/cristal-navigation-tree-default";
@@ -27,10 +28,6 @@ import type {
   NavigationTreeNode,
   NavigationTreeSource,
 } from "@xwiki/cristal-navigation-tree-api";
-
-// TODO: To be replaced by an actual authentication with CRISTAL-267
-const USERNAME = "test";
-const PASSWORD = "test";
 
 /**
  * Implementation of NavigationTreeSource for the Nextcloud backend.
@@ -56,26 +53,29 @@ class NextcloudNavigationTreeSource implements NavigationTreeSource {
   async getChildNodes(id?: string): Promise<Array<NavigationTreeNode>> {
     const currentId = id ? id : "";
     const navigationTree: Array<NavigationTreeNode> = [];
+    const currentDepth = currentId ? currentId.split("/").length : 0;
 
     const subdirectories = await this.getSubDirectories(currentId);
     for (const d of subdirectories) {
       const spaces = d.split("/");
       const currentPageData = await this.cristalApp.getPage(d);
-      navigationTree.push({
-        id: d,
-        label:
-          currentPageData && currentPageData.name
-            ? currentPageData.name
-            : spaces[spaces.length - 1],
-        location: new SpaceReference(undefined, ...spaces),
-        url: this.cristalApp.getRouter().resolve({
-          name: "view",
-          params: {
-            page: d,
-          },
-        }).href,
-        has_children: true, // TODO: Detect empty folders.
-      });
+      if (spaces.length == currentDepth + 1) {
+        navigationTree.push({
+          id: d,
+          label:
+            currentPageData && currentPageData.name
+              ? currentPageData.name
+              : spaces[spaces.length - 1],
+          location: new SpaceReference(undefined, ...spaces),
+          url: this.cristalApp.getRouter().resolve({
+            name: "view",
+            params: {
+              page: d,
+            },
+          }).href,
+          has_children: subdirectories.some((d2) => d2.startsWith(`${d}/`)),
+        });
+      }
     }
 
     return navigationTree;
@@ -92,7 +92,7 @@ class NextcloudNavigationTreeSource implements NavigationTreeSource {
           method: "PROPFIND",
           headers: {
             ...this.getBaseHeaders(),
-            Depth: "1",
+            Depth: "2",
           },
         },
       );
@@ -111,9 +111,7 @@ class NextcloudNavigationTreeSource implements NavigationTreeSource {
 
           // Remove attachments folders
           if (subdirectory !== "attachments") {
-            subdirectories.push(
-              `${directory ? directory + "/" : ""}${subdirectory}`,
-            );
+            subdirectories.push(urlFragments.slice(6, -1).join("/"));
           }
         }
       }

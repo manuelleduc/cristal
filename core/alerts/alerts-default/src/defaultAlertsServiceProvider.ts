@@ -18,40 +18,24 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-import { AuthenticationManager } from "./authenticationManager";
-import { AuthenticationManagerProvider } from "./authenticationManagerProvider";
 import { inject, injectable } from "inversify";
+import type {
+  AlertsService,
+  AlertsServiceProvider,
+} from "@xwiki/cristal-alerts-api";
 import type { CristalApp } from "@xwiki/cristal-api";
 
 /**
- * Default implementation of the authentication manager. Resolve the class
- * by looking for a component with the provided name in inversify.
- * @since 0.11
+ * Provider for {@link DefaultAlertsService}.
+ * @since 0.13
  */
 @injectable()
-class DefaultAuthenticationManagerProvider
-  implements AuthenticationManagerProvider
-{
+export class DefaultAlertsServiceProvider implements AlertsServiceProvider {
   constructor(
-    @inject<CristalApp>("CristalApp") private cristalApp: CristalApp,
+    @inject<CristalApp>("CristalApp") private readonly cristal: CristalApp,
   ) {}
 
-  get(type?: string): AuthenticationManager | undefined {
-    const resolvedType = type || this.cristalApp.getWikiConfig().getType();
-    try {
-      return this.cristalApp
-        .getContainer()
-        .getNamed("AuthenticationManager", resolvedType);
-    } catch (e) {
-      this.cristalApp
-        .getLogger("authentication.api")
-        .warn(
-          `Couldn't resolve AuthenticationManager for type=[${resolvedType}]`,
-          e,
-        );
-      return undefined;
-    }
+  get(): AlertsService {
+    return this.cristal.getContainer().get<AlertsService>("AlertsService");
   }
 }
-
-export { DefaultAuthenticationManagerProvider };

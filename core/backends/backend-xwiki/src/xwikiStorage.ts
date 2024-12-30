@@ -29,6 +29,7 @@ import {
 import { AbstractStorage } from "@xwiki/cristal-backend-api";
 import { getRestSpacesApiUrl } from "@xwiki/cristal-xwiki-utils";
 import { inject, injectable } from "inversify";
+import type { AlertsServiceProvider } from "@xwiki/cristal-alerts-api";
 import type { Logger } from "@xwiki/cristal-api";
 import type { AuthenticationManagerProvider } from "@xwiki/cristal-authentication-api";
 
@@ -67,6 +68,8 @@ export class XWikiStorage extends AbstractStorage {
     @inject<Logger>("Logger") logger: Logger,
     @inject<AuthenticationManagerProvider>("AuthenticationManagerProvider")
     private authenticationManagerProvider: AuthenticationManagerProvider,
+    @inject<AlertsServiceProvider>("AlertsServiceProvider")
+    private readonly alertsServiceProvider: AlertsServiceProvider,
   ) {
     super(logger, "storage.components.xwikiStorage");
   }
@@ -136,10 +139,22 @@ export class XWikiStorage extends AbstractStorage {
     }
     const url = this.getPageRestURL(page, syntax, revision);
     this.logger?.debug("XWiki Loading url", url);
-    const response = await fetch(url, { cache: "no-store" });
+    const response = await fetch(url, {
+      cache: "no-store",
+      headers: {
+        ...(await this.getCredentials()),
+      },
+    });
     let json;
     try {
       json = await response.json();
+      if (!response.ok) {
+        // TODO: Fix CRISTAL-383 (Error messages in Storages are not translated)
+        this.alertsServiceProvider
+          .get()
+          .error(`Could not load page ${page}. Reason: ${json.error}`);
+        return undefined;
+      }
     } catch {
       // Return undefined in case of missing page.
       return undefined;
@@ -184,6 +199,11 @@ export class XWikiStorage extends AbstractStorage {
     pageContentData.headlineRaw = json.headlineRaw;
     pageContentData.headline = json.headline;
     pageContentData.name = json.name;
+    pageContentData.lastModificationDate = new Date(
+      Date.parse(json.dateModified),
+    );
+    pageContentData.lastAuthor = { name: json.editor };
+    pageContentData.canEdit = json.canEdit;
     return pageContentData;
   }
 
@@ -287,7 +307,7 @@ export class XWikiStorage extends AbstractStorage {
   async save(page: string, content: string, title: string): Promise<unknown> {
     const url = this.buildSavePageURL(page, ["rest", "wikis", "xwiki"]);
 
-    await fetch(url, {
+    const response = await fetch(url, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -296,6 +316,15 @@ export class XWikiStorage extends AbstractStorage {
       // TODO: the syntax provided by the save is ignored and the content is always saved as markdown.
       body: JSON.stringify({ content, title, syntax: "markdown/1.2" }),
     });
+    if (!response.ok) {
+      const errorMessage = await response.text();
+      // TODO: Fix CRISTAL-383 (Error messages in Storages are not translated)
+      this.alertsServiceProvider
+        .get()
+        .error(`Could not save page ${page}. Reason: ${errorMessage}`);
+      // We need to throw an error to notify the editor that the save failed.
+      throw new Error(errorMessage);
+    }
 
     return;
   }

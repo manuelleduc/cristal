@@ -24,13 +24,11 @@ import {
   PageAttachment,
   PageData,
 } from "@xwiki/cristal-api";
+import { PASSWORD, USERNAME } from "@xwiki/cristal-authentication-nextcloud";
 import { AbstractStorage } from "@xwiki/cristal-backend-api";
 import { inject, injectable } from "inversify";
 import type { Logger } from "@xwiki/cristal-api";
-
-// TODO: To be replaced by an actual authentication with CRISTAL-267
-const USERNAME = "test";
-const PASSWORD = "test";
+import type { UserDetails } from "@xwiki/cristal-authentication-api";
 
 /**
  * Access Nextcloud storage through http.
@@ -71,6 +69,9 @@ export class NextcloudStorage extends AbstractStorage {
       );
 
       if (response.status >= 200 && response.status < 300) {
+        const { lastModificationDate, lastAuthor } =
+          await this.getLastEditDetails(page);
+
         const json = await response.json();
 
         return {
@@ -78,6 +79,9 @@ export class NextcloudStorage extends AbstractStorage {
           id: page,
           headline: json.name,
           headlineRaw: json.name,
+          lastAuthor: lastAuthor,
+          lastModificationDate: lastModificationDate,
+          canEdit: true,
         };
       } else {
         return undefined;
@@ -85,6 +89,47 @@ export class NextcloudStorage extends AbstractStorage {
     } catch {
       return undefined;
     }
+  }
+
+  private async getLastEditDetails(
+    page: string,
+  ): Promise<{ lastModificationDate?: Date; lastAuthor?: UserDetails }> {
+    let lastModificationDate: Date | undefined;
+    let lastAuthor: UserDetails | undefined;
+    const response = await fetch(
+      `${this.getWikiConfig().baseRestURL}/${USERNAME}/.cristal/${page}/page.json`,
+      {
+        body: `<?xml version="1.0" encoding="UTF-8"?>
+          <d:propfind xmlns:d="DAV:">
+            <d:prop xmlns:oc="http://owncloud.org/ns">
+              <d:getlastmodified />
+              <oc:owner-display-name />
+            </d:prop>
+          </d:propfind>`,
+        method: "PROPFIND",
+        headers: {
+          ...this.getBaseHeaders(),
+          Accept: "application/json",
+        },
+      },
+    );
+    if (response.status >= 200 && response.status < 300) {
+      const data = new window.DOMParser().parseFromString(
+        await response.text(),
+        "text/xml",
+      );
+
+      const modified =
+        data.getElementsByTagName("d:getlastmodified")[0]?.innerHTML;
+      if (modified) {
+        lastModificationDate = new Date(Date.parse(modified));
+      }
+      lastAuthor = {
+        name: data.getElementsByTagName("oc:owner-display-name")[0]?.innerHTML,
+      };
+    }
+
+    return { lastModificationDate, lastAuthor };
   }
 
   // TODO: reduce the number of statements in the following method and reactivate the disabled eslint rule.

@@ -21,7 +21,7 @@
 import { ComponentInit as AlertsDefaultComponentInit } from "@xwiki/cristal-alerts-default";
 import { ComponentInit as AttachmentsDefaultComponentInit } from "@xwiki/cristal-attachments-default";
 import { ComponentInit as AttachmentsUIComponentInit } from "@xwiki/cristal-attachments-ui";
-import { ComponentInit as AuthenticationAPIComponentInit } from "@xwiki/cristal-authentication-api";
+import { ComponentInit as AuthenticationDefaultComponentInit } from "@xwiki/cristal-authentication-default";
 import { ComponentInit as AuthenticationUIComponentInit } from "@xwiki/cristal-authentication-ui";
 import { ComponentInit as BackendAPIComponentInit } from "@xwiki/cristal-backend-api";
 import { ComponentInit as DexieBackendComponentInit } from "@xwiki/cristal-backend-dexie";
@@ -49,6 +49,7 @@ import { ComponentInit as LinkSuggestComponentInit } from "@xwiki/cristal-link-s
 import { ComponentInit as NextcloudLinkSuggestComponentInit } from "@xwiki/cristal-link-suggest-nextcloud";
 import { ComponentInit as XWikiLinkSuggestComponentInit } from "@xwiki/cristal-link-suggest-xwiki";
 import { ComponentInit as MacrosComponentInit } from "@xwiki/cristal-macros";
+import { ComponentInit as MarkdownDefaultComponentInit } from "@xwiki/cristal-markdown-default";
 import { ComponentInit as ClickListenerComponentInit } from "@xwiki/cristal-model-click-listener";
 import { ComponentInit as ModelReferenceAPIComponentInit } from "@xwiki/cristal-model-reference-api";
 import { ComponentInit as ModelReferenceNextcloudComponentInit } from "@xwiki/cristal-model-reference-nextcloud";
@@ -100,7 +101,7 @@ export class StaticBuild {
       new UIExtensionDefaultComponentInit(container);
       new AuthenticationUIComponentInit(container);
       new BackendAPIComponentInit(container);
-      new AuthenticationAPIComponentInit(container);
+      new AuthenticationDefaultComponentInit(container);
       new LinkSuggestComponentInit(container);
       new XWikiLinkSuggestComponentInit(container);
       new NextcloudLinkSuggestComponentInit(container);
@@ -128,6 +129,7 @@ export class StaticBuild {
       new ModelReferenceNextcloudComponentInit(container);
       new ModelReferenceXWikiComponentInit(container);
       new DateAPIComponentInit(container);
+      new MarkdownDefaultComponentInit(container);
     }
     if (additionalComponents) {
       additionalComponents(container);

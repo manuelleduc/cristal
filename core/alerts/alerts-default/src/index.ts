@@ -19,14 +19,22 @@
  */
 
 import { DefaultAlertsService } from "./defaultAlertsService";
+import { DefaultAlertsServiceProvider } from "./defaultAlertsServiceProvider";
 import { Container } from "inversify";
-import type { AlertsService } from "@xwiki/cristal-alerts-api";
+import type {
+  AlertsService,
+  AlertsServiceProvider,
+} from "@xwiki/cristal-alerts-api";
 
 export class ComponentInit {
   constructor(container: Container) {
     container
       .bind<AlertsService>("AlertsService")
       .to(DefaultAlertsService)
+      .inSingletonScope();
+    container
+      .bind<AlertsServiceProvider>("AlertsServiceProvider")
+      .to(DefaultAlertsServiceProvider)
       .inSingletonScope();
   }
 }

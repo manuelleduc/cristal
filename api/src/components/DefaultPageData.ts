@@ -21,6 +21,7 @@
 import { JSONLDDocument } from "./JSONLDDocument";
 import type { PageData } from "../api/PageData";
 import type { Document } from "../api/document";
+import type { UserDetails } from "@xwiki/cristal-authentication-api";
 
 export class DefaultPageData implements PageData {
   id: string;
@@ -35,6 +36,9 @@ export class DefaultPageData implements PageData {
   version: string;
   headline: string = "";
   headlineRaw: string = "";
+  lastModificationDate: Date | undefined;
+  lastAuthor: UserDetails | undefined;
+  canEdit: boolean = true;
 
   public constructor(
     id: string = "",
