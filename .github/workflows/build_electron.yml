@@ -76,3 +76,4 @@ jobs:
           files: electron/dist/cristal-*.*
           tag_name: ${{ github.ref }}
           draft: true
+
