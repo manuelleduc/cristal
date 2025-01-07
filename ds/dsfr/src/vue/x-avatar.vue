@@ -19,12 +19,26 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 -->
 <script lang="ts" setup>
 import { DsfrPicture } from "@gouvminint/vue-dsfr";
+import { AvatarProps } from "@xwiki/cristal-dsapi";
 
-defineProps<{ image: string }>();
+defineProps<AvatarProps>();
 </script>
 <template>
-  <DsfrPicture v-if="image" :src="image" class="avatar"></DsfrPicture>
-  <DsfrPicture v-else size="small" class="avatar" src=""></DsfrPicture>
+  <DsfrPicture
+    v-if="image"
+    :src="image"
+    class="avatar"
+    :alt="name"
+    :title="name"
+  ></DsfrPicture>
+  <DsfrPicture
+    v-else
+    size="small"
+    class="avatar"
+    src=""
+    :alt="name"
+    :title="name"
+  ></DsfrPicture>
 </template>
 
 <style scoped>

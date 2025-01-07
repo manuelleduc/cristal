@@ -94,8 +94,20 @@ type AlertProps = {
   details?: string;
 };
 
+/**
+ * Props for the avatar component.
+ *
+ * @since 0.14
+ */
+type AvatarProps = {
+  image: string;
+  dimensionz: string;
+  name: string;
+};
+
 export type {
   AlertProps,
+  AvatarProps,
   BreadcrumbProps,
   BtnProps,
   TabPanelProps,
