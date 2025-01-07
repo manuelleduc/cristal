@@ -80,14 +80,13 @@ provider.on("awarenessChange", (event: onAwarenessChangeParameters) => {
       v-if="status === WebSocketStatus.Connected"
       class="connection-status-users"
     >
-      <!-- TODO: add support for alt, not working currently. -->
       <x-avatar
         v-for="user in users"
         :key="user.name"
         class="avatar"
         :image="user.avatar"
         :name="user.name"
-        :dimensionz="'28px'"
+        :size="'28px'"
       >
         {{ user.name }}
       </x-avatar>

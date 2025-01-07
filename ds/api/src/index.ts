@@ -100,8 +100,17 @@ type AlertProps = {
  * @since 0.14
  */
 type AvatarProps = {
+  /**
+   * Image URL.
+   */
   image: string;
-  dimensionz: string;
+  /**
+   * Image maximum dimension, with a unit (e.g., 30 px)
+   */
+  size?: string;
+  /**
+   * User name.
+   */
   name: string;
 };
 

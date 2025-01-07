@@ -23,11 +23,13 @@ import type { AvatarProps } from "@xwiki/cristal-dsapi";
 
 defineProps<AvatarProps>();
 </script>
+
 <template>
   <sl-avatar :image="image" :label="name" class="avatar"></sl-avatar>
 </template>
+
 <style scoped>
 .avatar {
-  --size: v-bind("dimensionz");
+  --size: v-bind("size");
 }
 </style>

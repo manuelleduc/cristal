@@ -53,6 +53,8 @@ export class XWikiAuthenticationManager implements AuthenticationManager {
     authorizationUrl.searchParams.set("response_type", "code");
     // TODO: this client ID should be configurable somewhere.
     authorizationUrl.searchParams.set("client_id", "Cristal");
+    // Provide default user details, including the user picture.
+    authorizationUrl.searchParams.set("scope", "profile");
     const { host, protocol } = window.location;
     const redirectUri = `${protocol}//${host}/callback`;
     window.localStorage.setItem(this.localStorageRedirectUriKey, redirectUri);
@@ -128,10 +130,10 @@ export class XWikiAuthenticationManager implements AuthenticationManager {
       },
     };
     const {
-      data: { profile, name },
+      data: { profile, name, picture },
     } = await axios.get(userinfoUrl, data);
 
-    return { profile, name };
+    return { profile, name, avatar: picture };
   }
 
   async logout(): Promise<void> {

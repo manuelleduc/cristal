@@ -23,5 +23,5 @@ import type { AvatarProps } from "@xwiki/cristal-dsapi";
 defineProps<AvatarProps>();
 </script>
 <template>
-  <v-avatar :image="image" :size="dimensionz" :title="name"></v-avatar>
+  <v-avatar :image="image" :size="size" :title="name"></v-avatar>
 </template>
