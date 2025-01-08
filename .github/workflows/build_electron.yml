@@ -82,6 +82,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: electron-prepare
     steps:
+      - uses: daaku/gh-action-apt-install@v4
+        with:
+          packages: wine-stable
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4.1.0
