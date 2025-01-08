@@ -1,6 +1,6 @@
 {
   "name": "@xwiki/cristal-electron-storage",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "license": "LGPL 2.1",
   "author": "XWiki Org Community <contact@xwiki.org>",
   "homepage": "https://cristal.xwiki.org/",
@@ -24,7 +24,8 @@
     "clean": "rimraf dist",
     "compile": "tsc --project tsconfig.json --noEmit && vite build && vite build -c vite.preload.config.ts && vite build -c vite.main.config.ts",
     "lint": "eslint \"./src/**/*.{ts,tsx,vue}\" --max-warnings=0",
-    "prepack": "pnpm build"
+    "prepack": "pnpm build",
+    "test": "vitest --run"
   },
   "dependencies": {
     "@xwiki/cristal-api": "workspace:*",
@@ -32,18 +33,19 @@
     "@xwiki/cristal-link-suggest-api": "workspace:*",
     "@xwiki/cristal-model-api": "workspace:*",
     "@xwiki/cristal-model-remote-url-filesystem-api": "workspace:*",
-    "inversify": "6.2.0",
+    "inversify": "6.2.1",
     "mime": "4.0.6"
   },
   "peerDependencies": {
-    "electron": "33.2.1",
+    "electron": "33.3.1",
     "reflect-metadata": "0.2.2"
   },
   "devDependencies": {
-    "@types/node": "22.10.2",
+    "@types/node": "22.10.5",
+    "@xwiki/cristal-dev-config": "workspace:*",
     "reflect-metadata": "0.2.2",
-    "typescript": "5.6.3",
-    "vite": "6.0.3",
+    "typescript": "5.7.2",
+    "vite": "6.0.7",
     "vite-plugin-node": "4.0.0"
   },
   "publishConfig": {

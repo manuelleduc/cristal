@@ -29,20 +29,17 @@ import type { AuthenticationManager } from "@xwiki/cristal-authentication-api";
 export async function getUserProfile(
   authenticationManager: AuthenticationManager,
 ): Promise<{
-  name: string | undefined;
-  profile: string | undefined;
+  name?: string;
+  profile?: string;
+  avatar?: string;
   error: boolean;
 }> {
-  let profile = undefined;
-  let name = undefined;
-  let error = false;
   try {
-    const details = await authenticationManager.getUserDetails();
-    profile = details.profile;
-    name = details.name;
+    const { profile, name, avatar } =
+      await authenticationManager.getUserDetails();
+    return { profile, name, avatar, error: false };
   } catch (e) {
-    console.log(e);
-    error = true;
+    console.error("Failed to access the user profile", e);
+    return { error: true };
   }
-  return { profile, name, error };
 }

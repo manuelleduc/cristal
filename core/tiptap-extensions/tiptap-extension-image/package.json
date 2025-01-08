@@ -1,6 +1,6 @@
 {
   "name": "@xwiki/cristal-tiptap-extension-image",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "license": "LGPL 2.1",
   "author": "XWiki Org Community <contact@xwiki.org>",
   "homepage": "https://cristal.xwiki.org/",
@@ -19,12 +19,13 @@
   "main": "./src/index.ts",
   "scripts": {
     "build": "vue-tsc --project tsconfig.json && vite build",
-    "lint": "eslint \"./src/**/*.{ts,tsx}\" --max-warnings=0"
+    "lint": "eslint \"./src/**/*.{ts,tsx}\" --max-warnings=0",
+    "test": "vitest --run"
   },
   "dependencies": {
-    "@tiptap/extension-image": "2.10.3",
-    "@tiptap/pm": "2.10.3",
-    "@tiptap/vue-3": "2.10.3",
+    "@tiptap/extension-image": "2.11.0",
+    "@tiptap/pm": "2.11.0",
+    "@tiptap/vue-3": "2.11.0",
     "@xwiki/cristal-api": "workspace:*",
     "@xwiki/cristal-attachments-api": "workspace:*",
     "@xwiki/cristal-document-api": "workspace:*",
@@ -35,19 +36,21 @@
     "@xwiki/cristal-tiptap-link-suggest-ui": "workspace:*",
     "lodash": "4.17.21",
     "prosemirror-markdown": "1.13.1",
-    "vue-tippy": "6.5.0",
+    "vue-i18n": "11.0.1",
+    "vue-tippy": "6.6.0",
     "vue3-draggable-resizable": "1.6.5"
   },
   "peerDependencies": {
-    "@tiptap/core": "2.10.3",
+    "@tiptap/core": "2.11.0",
     "reflect-metadata": "0.2.2",
     "vue": "3.5.13"
   },
   "devDependencies": {
-    "@tiptap/core": "2.10.3",
-    "@types/lodash": "4.17.13",
+    "@tiptap/core": "2.11.0",
+    "@types/lodash": "4.17.14",
+    "@xwiki/cristal-dev-config": "workspace:*",
     "vue": "3.5.13",
-    "vue-tsc": "2.1.10"
+    "vue-tsc": "2.2.0"
   },
   "publishConfig": {
     "exports": {

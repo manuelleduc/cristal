@@ -1,6 +1,6 @@
 {
   "name": "@xwiki/cristal-sharedworker-api",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "license": "LGPL 2.1",
   "author": "XWiki Org Community <contact@xwiki.org>",
   "homepage": "https://cristal.xwiki.org/",
@@ -22,7 +22,8 @@
     "clean": "rimraf dist",
     "compile": "vue-tsc --project tsconfig.json && vite build",
     "lint": "eslint \"./src/**/*.{ts,tsx,vue}\" --max-warnings=0",
-    "prepack": "pnpm build"
+    "prepack": "pnpm build",
+    "test": "vitest --run"
   },
   "types": "dist/index.d.ts",
   "dependencies": {
@@ -30,10 +31,11 @@
     "vue": "3.5.13"
   },
   "devDependencies": {
-    "typescript": "5.6.3",
-    "vite": "6.0.3",
+    "@xwiki/cristal-dev-config": "workspace:*",
+    "typescript": "5.7.2",
+    "vite": "6.0.7",
     "vite-plugin-comlink": "5.1.0",
-    "vue-tsc": "2.1.10"
+    "vue-tsc": "2.2.0"
   },
   "publishConfig": {
     "exports": {

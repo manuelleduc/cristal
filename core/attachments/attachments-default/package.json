@@ -1,6 +1,6 @@
 {
   "name": "@xwiki/cristal-attachments-default",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "license": "LGPL 2.1",
   "author": "XWiki Org Community <contact@xwiki.org>",
   "homepage": "https://cristal.xwiki.org/",
@@ -19,7 +19,8 @@
   "main": "./src/index.ts",
   "scripts": {
     "build": "tsc --project tsconfig.json && vite build",
-    "lint": "eslint \"./src/**/*.{ts,tsx,vue}\" --max-warnings=0"
+    "lint": "eslint \"./src/**/*.{ts,tsx,vue}\" --max-warnings=0",
+    "test": "vitest --run"
   },
   "dependencies": {
     "@xwiki/cristal-attachments-api": "workspace:*",
@@ -28,7 +29,7 @@
     "@xwiki/cristal-model-api": "workspace:*",
     "@xwiki/cristal-model-reference-api": "workspace:*",
     "@xwiki/cristal-model-remote-url-api": "workspace:*",
-    "inversify": "6.2.0",
+    "inversify": "6.2.1",
     "pinia": "2.3.0",
     "vue": "3.5.13"
   },
@@ -36,9 +37,10 @@
     "reflect-metadata": "0.2.2"
   },
   "devDependencies": {
+    "@xwiki/cristal-dev-config": "workspace:*",
     "reflect-metadata": "0.2.2",
-    "typescript": "5.6.3",
-    "vite": "6.0.3"
+    "typescript": "5.7.2",
+    "vite": "6.0.7"
   },
   "publishConfig": {
     "exports": {

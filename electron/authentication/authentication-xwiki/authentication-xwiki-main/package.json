@@ -1,6 +1,6 @@
 {
   "name": "@xwiki/cristal-electron-authentication-xwiki-main",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "license": "LGPL 2.1",
   "author": "XWiki Org Community <contact@xwiki.org>",
   "homepage": "https://cristal.xwiki.org/",
@@ -20,7 +20,8 @@
   "scripts": {
     "build": "tsc --project tsconfig.json && vite build",
     "clean": "rimraf dist",
-    "lint": "eslint \"./src/**/*.{ts,tsx,vue}\" --max-warnings=0"
+    "lint": "eslint \"./src/**/*.{ts,tsx,vue}\" --max-warnings=0",
+    "test": "vitest --run"
   },
   "dependencies": {
     "@xwiki/cristal-authentication-api": "workspace:*",
@@ -28,11 +29,12 @@
     "electron-store": "10.0.0"
   },
   "peerDependencies": {
-    "electron": "33.2.1"
+    "electron": "33.3.1"
   },
   "devDependencies": {
-    "typescript": "5.6.3",
-    "vite": "6.0.3"
+    "@xwiki/cristal-dev-config": "workspace:*",
+    "typescript": "5.7.2",
+    "vite": "6.0.7"
   },
   "publishConfig": {
     "exports": {
