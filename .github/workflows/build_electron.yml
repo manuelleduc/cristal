@@ -35,19 +35,13 @@ jobs:
         with:
           cache: 'pnpm'
       - id: restore-cache-electron-linux
-        uses: actions/cache/restore@v4
+        uses: actions/cache@v4
         with:
           path: |
             .nx/
           key: ${{ github.ref }}-restore-cache-electron-linux
       - run: pnpm install
       - run: pnpm run build
-      - id: save-cache-electron-linux
-        uses: actions/cache/save@v4
-        with:
-          path: |
-            .nx/
-          key: ${{ github.ref }}-restore-cache-electron-linux
       - run: pnpm run --filter @xwiki/cristal-electron build:linux
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -64,8 +58,16 @@ jobs:
     needs: electron-prepare
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4.1.0
       - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4.1.0
+        with:
+          cache: 'pnpm'
+      - id: restore-cache-electron-mac
+        uses: actions/cache@v4
+        with:
+          path: |
+            .nx/
+          key: ${{ github.ref }}-restore-cache-electron-mac
       - run: pnpm install
       - run: pnpm run build
       - run: pnpm run --filter @xwiki/cristal-electron build:mac
@@ -81,8 +83,16 @@ jobs:
     needs: electron-prepare
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4.1.0
       - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4.1.0
+        with:
+          cache: 'pnpm'
+      - id: restore-cache-electron-win
+        uses: actions/cache@v4
+        with:
+          path: |
+            .nx/
+          key: ${{ github.ref }}-restore-cache-electron-win
       - run: pnpm install
       - run: pnpm run build
       - run: pnpm run --filter @xwiki/cristal-electron build:win
@@ -93,4 +103,3 @@ jobs:
           files: electron/dist/cristal-*.*
           tag_name: ${{ github.ref }}
           draft: true
-
