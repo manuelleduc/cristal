@@ -122,6 +122,7 @@ export class XWikiAuthenticationManager implements AuthenticationManager {
   }
 
   async getUserDetails(): Promise<UserDetails> {
+    // TODO: add a cache mechanism to avoid spamming the endpoint all the time
     const config = this.cristalApp.getWikiConfig();
     const userinfoUrl = `${config.baseURL}/oidc/userinfo`;
     const data = {

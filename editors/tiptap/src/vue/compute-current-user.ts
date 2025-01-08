@@ -22,6 +22,11 @@ import { User } from "../extensions/collaboration";
 import noavatar from "../images/noavatar.png";
 import { AuthenticationManager } from "@xwiki/cristal-authentication-api";
 
+/**
+ *
+ * @param authentication - an authentication manager components
+ * @since 0.14
+ */
 export async function computeCurrentUser(
   authentication?: AuthenticationManager,
 ): Promise<User> {
@@ -34,7 +39,7 @@ export async function computeCurrentUser(
       const userDetails = await authentication.getUserDetails();
       ret = {
         name: userDetails.name,
-        avatar: userDetails.avatar,
+        avatar: userDetails.avatar ?? noavatar,
       };
     } catch (e) {
       console.error("Failed to get the user details", e);
