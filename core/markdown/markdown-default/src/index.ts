@@ -25,7 +25,7 @@ import { Container } from "inversify";
 
 class ComponentInit {
   constructor(container: Container) {
-    console.log("C");
+    console.log("D");
     container
       .bind<MarkdownRenderer>("MarkdownRenderer")
       .to(DefaultMarkdownRenderer)
