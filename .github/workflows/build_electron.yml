@@ -92,6 +92,7 @@ jobs:
         with:
           path: |
             .nx/
+            !.nx/workspace-data/d
           key: ${{ github.ref }}-restore-cache-electron-win
       - run: pnpm install
       - run: pnpm run build
