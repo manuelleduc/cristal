@@ -94,6 +94,9 @@ jobs:
             .nx/
             !.nx/workspace-data/d
           key: ${{ github.ref }}-restore-cache-electron-win
+        env:
+          NX_DISABLE_DB: true
+          NX_DB_CACHE: false
       - run: pnpm install
       - run: pnpm run build
       - run: pnpm run --filter @xwiki/cristal-electron build:win
