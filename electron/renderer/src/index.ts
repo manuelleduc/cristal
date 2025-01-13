@@ -23,7 +23,7 @@ import { ComponentInit as BrowserComponentInit } from "@xwiki/cristal-browser-el
 import { ComponentInit as XWikiAuthenticationComponentInit } from "@xwiki/cristal-electron-authentication-xwiki-renderer";
 import { ComponentInit as ElectronStorageComponentInit } from "@xwiki/cristal-electron-storage";
 import { ComponentInit as FileSystemPageHierarchyComponentInit } from "@xwiki/cristal-hierarchy-filesystem";
-import { CristalAppLoader, loadConfig } from "@xwiki/cristal-lib";
+import { CristalAppLoader } from "@xwiki/cristal-lib";
 import { ComponentInit as FileSystemLinkSuggestComponentInit } from "@xwiki/cristal-link-suggest-filesystem";
 import { ComponentInit as ModelReferenceFilesystemComponentInit } from "@xwiki/cristal-model-reference-filesystem";
 import { ComponentInit as ModelRemoteURLFilesystemComponentInit } from "@xwiki/cristal-model-remote-url-filesystem-default";
