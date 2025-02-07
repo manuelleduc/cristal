@@ -29,7 +29,7 @@ import { ComponentInit as XWikiBackendComponentInit } from "@xwiki/cristal-backe
 import { Configuration } from "@xwiki/cristal-configuration-api";
 import { ComponentInit as DateAPIComponentInit } from "@xwiki/cristal-date-api";
 import { ComponentInit as DocumentComponentInit } from "@xwiki/cristal-document-default";
-import { ComponentInit as EditorTiptapComponentInit } from "@xwiki/cristal-editors-tiptap";
+import { ComponentInit as EditorBlocknoteComponentInit } from "@xwiki/cristal-editors-blocknote";
 import { ComponentInit as MenuButtonsComponentInit } from "@xwiki/cristal-extension-menubuttons";
 import { ComponentInit as ExtraTabsComponentInit } from "@xwiki/cristal-extra-tabs-default";
 import { ComponentInit as DefaultPageHierarchyComponentInit } from "@xwiki/cristal-hierarchy-default";
@@ -86,7 +86,7 @@ export async function defaultComponentsList(
 
   new RenderingComponentInit(container);
   new MenuButtonsComponentInit(container);
-  new EditorTiptapComponentInit(container);
+  new EditorBlocknoteComponentInit(container);
   new ExtraTabsComponentInit(container);
   new InfoActionsComponentInit(container);
   new AttachmentsUIComponentInit(container);

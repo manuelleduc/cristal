@@ -2630,6 +2630,28 @@ importers:
         specifier: 2.2.0
         version: 2.2.0(typescript@5.7.3)
 
+  editors/blocknote:
+    dependencies:
+      vue:
+        specifier: 3.5.13
+        version: 3.5.13(typescript@5.7.3)
+    devDependencies:
+      '@xwiki/cristal-dev-config':
+        specifier: workspace:*
+        version: link:../../dev/config
+      reflect-metadata:
+        specifier: 0.2.2
+        version: 0.2.2
+      typescript:
+        specifier: 5.7.3
+        version: 5.7.3
+      vite:
+        specifier: 6.1.0
+        version: 6.1.0(@types/node@22.13.1)(tsx@4.19.2)(yaml@2.7.0)
+      vue-tsc:
+        specifier: 2.2.0
+        version: 2.2.0(typescript@5.7.3)
+
   editors/tiptap:
     dependencies:
       '@hocuspocus/provider':
@@ -3263,9 +3285,9 @@ importers:
       '@xwiki/cristal-dsvuetify':
         specifier: workspace:*
         version: link:../ds/vuetify
-      '@xwiki/cristal-editors-tiptap':
+      '@xwiki/cristal-editors-blocknote':
         specifier: workspace:*
-        version: link:../editors/tiptap
+        version: link:../editors/blocknote
       '@xwiki/cristal-extension-manager':
         specifier: workspace:*
         version: link:../extension-manager

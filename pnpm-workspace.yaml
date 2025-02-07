@@ -51,7 +51,7 @@ packages:
   - "ds/dsfr"
   - "ds/shoelace"
   - "ds/vuetify"
-  - "editors/tiptap"
+  - "editors/*"
   - "electron"
   - "electron/authentication/authentication-xwiki/*"
   - "electron/main"
