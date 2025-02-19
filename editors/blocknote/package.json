@@ -27,12 +27,19 @@
   },
   "types": "dist/index.d.ts",
   "dependencies": {
-    "vue": "3.5.13"
+    "@blocknote/core": "0.23.2",
+    "@blocknote/mantine": "0.23.2",
+    "@blocknote/react": "0.23.2",
+    "vue": "3.5.13",
+    "vuera-ts": "1.0.8"
   },
   "peerDependencies": {
     "reflect-metadata": "0.2.2"
   },
   "devDependencies": {
+    "@types/react": "19.0.8",
+    "@types/react-dom": "19.0.3",
+    "@vitejs/plugin-react": "4.3.4",
     "@xwiki/cristal-dev-config": "workspace:*",
     "reflect-metadata": "0.2.2",
     "typescript": "5.7.3",

@@ -3,9 +3,10 @@
     "rootDir": "src",
     "outDir": "dist",
     "lib": [
-      "dom"
+      "dom", "ES2015"
     ],
-    "isolatedDeclarations": false
+    "isolatedDeclarations": false,
+    "jsx": "preserve"
   },
   "extends": "./../../tsconfig.json",
   "include": ["src"],
