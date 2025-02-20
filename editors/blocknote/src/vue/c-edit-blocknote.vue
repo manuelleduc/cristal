@@ -25,9 +25,25 @@ import {
   name as documentServiceName,
 } from "@xwiki/cristal-document-api";
 import { CArticle } from "@xwiki/cristal-skin";
+import { createRoot } from "react-dom/client";
+import { applyReactInVue, setVeauryOptions } from "veaury";
 import { inject, ref } from "vue";
 
-import { ReactInVue } from "vuera-ts";
+setVeauryOptions({
+  react: {
+    createRoot,
+  },
+});
+
+// injectSyncUpdateForPureReactInVue(BlockNoteView, {
+//   // The name of the hook function that determines the content update of the Input component
+//   onChange(args: any) {
+//     return {
+//       value: args.target.value,
+//     };
+//   },
+// });
+
 const cristal = inject<CristalApp>("cristal")!;
 const container = cristal.getContainer();
 const documentService = container.get<DocumentService>(documentServiceName);
@@ -37,7 +53,7 @@ const currentPage = documentService.getCurrentDocument();
 const title = ref(""); // TODO
 const titlePlaceholder = ref(""); // TODO
 
-const EditorComp = ReactInVue(App);
+const EditorComp = applyReactInVue(App);
 </script>
 
 <template>
@@ -62,5 +78,3 @@ const EditorComp = ReactInVue(App);
     </template>
   </c-article>
 </template>
-
-<style scoped></style>

@@ -18,13 +18,17 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-import { generateConfigVue } from "../../vite.config";
-import react from "@vitejs/plugin-react";
+import { generateConfig } from "../../vite.config";
+import veauryVitePlugins from "veaury/vite/index.js";
 import { defineConfig, mergeConfig } from "vite";
 
 export default mergeConfig(
-  generateConfigVue(import.meta.url),
+  generateConfig(import.meta.url),
   defineConfig({
-    plugins: [react],
+    plugins: [
+      veauryVitePlugins({
+        type: "vue",
+      }),
+    ],
   }),
 );
