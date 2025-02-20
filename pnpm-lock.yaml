@@ -2641,12 +2641,12 @@ importers:
       '@blocknote/react':
         specifier: 0.23.2
         version: 0.23.2(@tiptap/pm@2.11.4)(@types/hast@3.0.4)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      veaury:
+        specifier: 2.6.2
+        version: 2.6.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       vue:
         specifier: 3.5.13
         version: 3.5.13(typescript@5.7.3)
-      vuera-ts:
-        specifier: 1.0.8
-        version: 1.0.8(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(vue@3.5.13(typescript@5.7.3))
     devDependencies:
       '@types/react':
         specifier: 19.0.8
@@ -9246,6 +9246,12 @@ packages:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
     engines: {node: '>= 0.8'}
 
+  veaury@2.6.2:
+    resolution: {integrity: sha512-q0Hdrec5TpE5BrVKYRTMTBMt/TEYsWfzxbiApyt8fT0CuJTtSqAWJGYLIivSLBxfvu6QpIF1LHFxqc6bUtxBIw==}
+    peerDependencies:
+      react: '>= 16.4.0'
+      react-dom: '>= 16.4.0'
+
   verror@1.10.1:
     resolution: {integrity: sha512-veufcmxri4e3XSrT0xwfUR7kguIkaxBeosDg00yDWhk49wdwkSUrvvsm7nc75e1PUyvIeZj6nS8VQRYz2/S4Xg==}
     engines: {node: '>=0.6.0'}
@@ -9447,13 +9453,6 @@ packages:
     peerDependenciesMeta:
       typescript:
         optional: true
-
-  vuera-ts@1.0.8:
-    resolution: {integrity: sha512-/mLNtD63UF8rXy3+K6c+NRMIqx3bH8PyfpAPxPgYE9PFU01ck6JV5SSoQONuFo4kKgZVz+iG4Zdi/TVpSz7UVA==}
-    peerDependencies:
-      react: '>=18'
-      react-dom: '>=18'
-      vue: '>= 2.7'
 
   vuetify@3.7.11:
     resolution: {integrity: sha512-50Z2SNwPXbkGmve4CwxOs4sySZGgLwQYIDsKx+coSrfIBqz8IyXgxRFQdrvgoehIwUjGTNqaPZymuK5rMFkfHA==}
@@ -16010,6 +16009,11 @@ snapshots:
 
   vary@1.1.2: {}
 
+  veaury@2.6.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
+    dependencies:
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
+
   verror@1.10.1:
     dependencies:
       assert-plus: 1.0.0
@@ -16232,12 +16236,6 @@ snapshots:
       '@vue/shared': 3.5.13
     optionalDependencies:
       typescript: 5.7.3
-
-  vuera-ts@1.0.8(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(vue@3.5.13(typescript@5.7.3)):
-    dependencies:
-      react: 19.0.0
-      react-dom: 19.0.0(react@19.0.0)
-      vue: 3.5.13(typescript@5.7.3)
 
   vuetify@3.7.11(typescript@5.7.3)(vite-plugin-vuetify@2.1.0)(vue@3.5.13(typescript@5.7.3)):
     dependencies:
