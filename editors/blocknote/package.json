@@ -32,6 +32,10 @@
     "@blocknote/react": "0.23.2",
     "@vitejs/plugin-vue": "5.2.1",
     "@vitejs/plugin-vue-jsx": "4.1.1",
+    "@xwiki/cristal-api": "0.14.0",
+    "@xwiki/cristal-document-api": "0.14.0",
+    "@xwiki/cristal-skin": "0.14.0",
+    "inversify": "6.2.2",
     "react-dom": "19.0.0",
     "veaury": "2.6.2",
     "vue": "3.5.13"
