@@ -27,7 +27,8 @@ import {
 import { CArticle } from "@xwiki/cristal-skin";
 import { createRoot } from "react-dom/client";
 import { applyReactInVue, setVeauryOptions } from "veaury";
-import { inject, ref } from "vue";
+import { inject, type Ref, ref } from "vue";
+import type { DocumentReference } from "@xwiki/cristal-model-api";
 
 setVeauryOptions({
   react: {
@@ -50,6 +51,8 @@ const documentService = container.get<DocumentService>(documentServiceName);
 const loading = documentService.isLoading();
 const error = documentService.getError();
 const currentPage = documentService.getCurrentDocument();
+const currentPageReference: Ref<DocumentReference | undefined> =
+  documentService.getCurrentDocumentReference();
 const title = ref(""); // TODO
 const titlePlaceholder = ref(""); // TODO
 
@@ -61,6 +64,7 @@ const EditorComp = applyReactInVue(App);
     :loading="loading"
     :error="error"
     :current-page="currentPage"
+    :current-page-reference="currentPageReference"
     :page-exist="true"
     before-u-i-x-p-id="edit.before"
     after-u-i-x-p-id="edit.after"
