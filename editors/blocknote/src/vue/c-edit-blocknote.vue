@@ -121,6 +121,7 @@ async function loadEditor(currentPage: PageData | undefined): Promise<void> {
     theme: "light",
     blockNoteOptions: {
       collaboration,
+      // TODO: pass the converted block here
       initialContent: [
         {
           type: "paragraph",
