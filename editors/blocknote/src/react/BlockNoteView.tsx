@@ -24,6 +24,7 @@ import {
   useCreateBlockNote,
 } from "@blocknote/react";
 import { multiColumnDropCursor } from "@blocknote/xl-multi-column";
+import { HocuspocusProvider } from "@hocuspocus/provider";
 import { ReactivueChild } from "@xwiki/cristal-reactivue";
 import React from "react";
 
@@ -40,6 +41,7 @@ type BlockNoteViewWrapperProps = {
   blockNoteOptions?: Partial<Omit<DefaultEditorOptionsType, "schema">>;
   theme?: "light" | "dark";
   readonly?: boolean;
+  content: string;
 
   formattingToolbar: ReactivueChild<{
     editor: EditorType;
@@ -73,8 +75,31 @@ function BlockNoteViewWrapper({
   formattingToolbarOnlyFor,
   linkToolbar: CustomLinkToolbar,
   filePanel: CustomFilePanel,
+  content,
 }: BlockNoteViewWrapperProps) {
   const schema = createBlockNoteSchema();
+
+  const provider = blockNoteOptions?.collaboration?.provider as
+    | HocuspocusProvider
+    | undefined;
+
+  if (provider) {
+    provider.on("synced", () => {
+      if (
+        !provider.document.getMap("configuration").get("initialContentLoaded")
+      ) {
+        provider.document
+          .getMap("configuration")
+          .set("initialContentLoaded", true);
+        editor
+          .tryParseMarkdownToBlocks(content)
+          .then((blocks) => editor.replaceBlocks(editor.document, blocks));
+      }
+    });
+    provider.on("destroy", () => {
+      provider.destroy();
+    });
+  }
 
   // Creates a new editor instance.
   const editor = useCreateBlockNote({
@@ -86,6 +111,14 @@ function BlockNoteViewWrapper({
     // The default drop cursor only shows up above and below blocks - we replace
     // it with the multi-column one that also shows up on the sides of blocks.
     dropCursor: multiColumnDropCursor,
+    _tiptapOptions: {
+      extensions: [
+        // initMarkdown(
+        //   modelReferenceParser,
+        //   remoteURLSerialize,
+        // );
+      ],
+    },
   });
 
   // Renders the editor instance using a React component.
