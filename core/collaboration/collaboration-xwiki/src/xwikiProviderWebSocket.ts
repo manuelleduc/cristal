@@ -40,7 +40,7 @@ function readClientId(handlerDecoder: decoding.Decoder) {
  * @param room - the string serialization of the room
  * @since 0.20
  */
-export function createXWikiWebsocketProvider(
+export function createXWikiWebSocketProvider(
   url: string,
   room: string,
 ): WebsocketProvider {
