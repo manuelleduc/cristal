@@ -5,7 +5,6 @@
 ```ts
 
 import type { EntityReference } from '@xwiki/cristal-model-api';
-import { EntityType } from '@xwiki/cristal-model-api';
 
 // @beta (undocumented)
 export type Alignment = "left" | "center" | "right" | "justify";
@@ -52,15 +51,6 @@ export type BlockStyles = {
     textColor?: string;
     backgroundColor?: string;
     textAlignment?: Alignment;
-};
-
-// @beta
-export type ConverterContext = {
-    parseReference(reference: string, type: EntityType | null): EntityReference | null;
-    serializeReference(reference: EntityReference): string;
-    parseReferenceFromUrl(url: string): EntityReference | null;
-    getUrlFromReference(reference: EntityReference): string;
-    getDisplayName(reference: EntityReference): string;
 };
 
 // @beta (undocumented)
